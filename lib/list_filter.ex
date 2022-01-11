@@ -1,18 +1,17 @@
 defmodule ListFilter do
-  @moduledoc """
-  Documentation for `ListFilter`.
-  """
+  def call(list), do: filter_odd(list, 0)
 
-  @doc """
-  Hello world.
+  defp filter_odd([], acc), do: acc
 
-  ## Examples
-
-      iex> ListFilter.hello()
-      :world
-
-  """
-  def hello do
-    :world
+  defp filter_odd([head | tail], acc) do
+    if Integer.parse(head) == :error do
+      filter_odd(tail, acc)
+    else
+      case Integer.parse(head) do
+        {n, ""} ->
+          acc = if rem(n, 2) != 0, do: acc + 1, else: acc + 0
+          filter_odd(tail, acc)
+      end
+    end
   end
 end
